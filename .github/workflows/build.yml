@@ -32,18 +32,18 @@ jobs:
             type=sha
       
 
-      - name: Print metadata
-        run: |
-          echo "Version: ${{ steps.meta.outputs.version }}"
-          echo "Tags: ${{ steps.meta.outputs.tags }}"
-          echo "Repository: ${{ github.repository }}"
+      # - name: Print metadata
+      #   run: |
+      #     echo "Version: ${{ steps.meta.outputs.version }}"
+      #     echo "Tags: ${{ steps.meta.outputs.tags }}"
+      #     echo "Repository: ${{ github.repository }}"
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
       # - name: Update K8s manifest image tag
       #   run: |
