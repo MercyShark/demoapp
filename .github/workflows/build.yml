@@ -68,6 +68,9 @@ jobs:
           cd k8s-repo
           sed -i "s|image: .*|image: $TAG|g" k8s/deployment.yaml
 
+          # update change-cause annotation
+          sed -i "s|kubernetes.io/change-cause:.*|kubernetes.io/change-cause: \"Deploy $TAG\"|g" k8s/deployment.yaml
+
       - name: Commit updated manifest         
         run: |
           cd k8s-repo
