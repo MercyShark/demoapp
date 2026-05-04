@@ -46,9 +46,6 @@ jobs:
         run: |
           echo "IMAGE_NAME=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT
           
-        
-
-
   updates-manifest:
     runs-on: ubuntu-latest
     needs: build
@@ -63,13 +60,15 @@ jobs:
           path: k8s-repo
 
 
-      - name: Update K8s manifest image tag
+      - name: Set image tag
+        run: echo "TAG=$(echo "${{ needs.build.outputs.image_name }}" | head -n 1)" >> $GITHUB_ENV
+
+      - name: Update K8s manifest image tag   
         run: |
           cd k8s-repo
-          echo "TAG=${{ needs.build.outputs.image_name}}" >> $GITHUB_ENV
           sed -i "s|image: .*|image: $TAG|g" k8s/nginx-deployment.yaml
 
-      - name: Commit updated manifest
+      - name: Commit updated manifest         
         run: |
           cd k8s-repo
           git config user.name "github-actions"
