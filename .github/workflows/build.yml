@@ -63,7 +63,7 @@ jobs:
       - name: Update K8s manifest image tag
         run: |
           cd k8s-repo
-          TAG=$(echo "${{ needs.build.outputs.image_name }}" | head -n 1)
+          echo "TAG=${{ needs.build.outputs.image_name}}" >> $GITHUB_ENV
           sed -i "s|image: .*|image: $TAG|g" k8s/nginx-deployment.yaml
 
       - name: Commit updated manifest
